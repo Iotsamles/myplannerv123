@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> edusmart Phone Number Validation</title>
+</head>
+<body>
+
+  <h2>Edusmart PIN generation & Validation</h2>
+  <label for="phone">Phone Number (12 digits):</label>
+  <input type="text" id="phone" maxlength="12" placeholder="Enter 12-digit phone number"><br><br>
+
+  <label for="checkInput" hidden>Validation Input:</label>
+  <input type="text" id="checkInput" placeholder="Enter calculated value"><br><br>
+
+  <button onclick="validateInput()">Submit</button>
+
+  <script> 
+    function validateInput() {
+      const phone = document.getElementById("phone").value;
+      const checkInput = document.getElementById("checkInput").value;
+      const currentMonth = new Date().getMonth() + 1; // Months are zero-based in JavaScript
+      const currentYear = new Date().getFullYear();
+
+      // Ensure the phone number is exactly 12 digits  as it is generated from USSD it it will be always ok 
+      if (phone.length !== 12 || isNaN(phone)) {
+        alert("Please enter a valid 12-digit phone number.");
+        return;
+      }
+
+      // Extract the last 8 digits of the phone number
+      const last8Digits = parseInt(phone.slice(-8));
+      const lastDigits = parseInt(phone.slice(-1)); 
+
+      // Perform the calculation for different month values
+      const calculatedValue = ((last8Digits + currentMonth) * 2) + (currentMonth * 99) + (lastDigits*99) + (currentYear*3);
+      
+      const currentDate = new Date();
+        
+        // Add 3 months to the current date
+        const thirdMonthDate = new Date(currentDate.setMonth(currentDate.getMonth() + 3));
+        
+        // Array of month names
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+        
+        // Get the month name of the third month from now
+        const thirdMonthName = monthNames[thirdMonthDate.getMonth()];
+        // below is the sms to be recived by the client using edusmart and has payed after dialing *584*5*100#
+    
+      alert("Mukiriya Ukoresha Edusmart Rwanda PIN ya nimero yawe muri sisiteme ni " + calculatedValue + " izarangirana n'ukwezi kwa  : "+thirdMonthName+ " Murakoze gukoresha Edusmart Rwanda  https://edusmartrwanda.web.app/") ;
+    }
+  </script>
+
+</body>
+</html> 
